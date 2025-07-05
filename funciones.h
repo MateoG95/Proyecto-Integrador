@@ -1,8 +1,8 @@
 struct Zona {
-    char nombre[30];
-    float historico[30];  // Niveles de contaminacion en los ultimos 30 dias
-    float actual;         // Nivel actual
-    float prediccion;     // Prediccion para las siguientes 24 horas
+    char nombre[50];
+    float actual;
+    float prediccion;
+    float historico[30]; // Últimos 30 días
 };
 
 struct Clima {

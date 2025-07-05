@@ -1,20 +1,46 @@
 #include <stdio.h>
 #include <string.h>
 #include "funciones.h"
+void cargarDatosDesdeCSV(struct Zona *zona, const char *nombreArchivo) {
+    FILE *archivo = fopen(nombreArchivo, "r");
+    if (archivo == NULL) {
+        printf("No se pudo abrir el archivo %s\n", nombreArchivo);
+        return;
+    }
+
+    char linea[100];
+    int contador = 0;
+
+    // Saltar encabezado
+    fgets(linea, sizeof(linea), archivo);
+
+    // Leer hasta 30 registros (últimos 30 días)
+    while (fgets(linea, sizeof(linea), archivo) && contador < 30) {
+        float valor;
+        if (sscanf(linea, "%*[^,],%f", &valor) == 1) {
+            zona->historico[contador] = valor;
+            contador++;
+        }
+    }
+
+    fclose(archivo);
+}
 
 void inicializarZonas(struct Zona zonas[], int *totalZonas) {
-    *totalZonas = 5;
+    *totalZonas = 4;
+
     strcpy(zonas[0].nombre, "Centro");
-    strcpy(zonas[1].nombre, "Norte");
-    strcpy(zonas[2].nombre, "Sur");
-    strcpy(zonas[3].nombre, "Este");
-    strcpy(zonas[4].nombre, "Oeste");
+    strcpy(zonas[1].nombre, "Carapungo");
+    strcpy(zonas[2].nombre, "Cotocollao");
+    strcpy(zonas[3].nombre, "Belisario");
+
+    cargarDatosDesdeCSV(&zonas[0], "centro-quito-air-quality.csv");
+    cargarDatosDesdeCSV(&zonas[1], "carapungo-quito-air-quality.csv");
+    cargarDatosDesdeCSV(&zonas[2], "cotocollao-quito-air-quality.csv");
+    cargarDatosDesdeCSV(&zonas[3], "belisario-quito-air-quality.csv");
 
     for (int i = 0; i < *totalZonas; i++) {
-        for (int j = 0; j < 30; j++) {
-            zonas[i].historico[j] = 0;
-        }
-        zonas[i].actual = 0;
+        zonas[i].actual = zonas[i].historico[0]; // Día más reciente
         zonas[i].prediccion = 0;
     }
 }
