@@ -12,7 +12,7 @@ int menu() {
     printf("5. Predecir niveles de contaminacion (por zona o total)\n");
     printf("6. Generar alertas preventivas\n");
     printf("7. Generar recomendaciones (por zona o total)\n");
-    printf("8. Editar datos Contaminación\n");
+    printf("8. Editar datos Contaminacion\n");
     printf("9. Exportar datos del sistema\n");
     printf("10. Salir\n"); 
     printf("Seleccione una opcion: ");
@@ -142,7 +142,7 @@ void predecirContaminacion(struct Zona zonas[], int totalZonas, struct Clima cli
 
 void predecirPorZona(struct Zona zonas[], int totalZonas, struct Clima clima) {
     int index;
-    printf("Seleccione zona a predecir (0-%d): ", totalZonas - 1);
+    printf("Seleccione zona a predecir (0-%d); 0:Centro 1:Cotocollao 2:Carapungo 3:Belisario 4:Sur: ", totalZonas - 1);
     scanf("%d", &index);
 
     if (index < 0 || index >= totalZonas) {
@@ -193,7 +193,7 @@ void generarAlertas(struct Zona zonas[], int totalZonas, int soloUnaZona) {
                     printf("\n>>> ALERTAS PARA ZONA %s <<<\n", zonas[i].nombre);
                     alertaMostrada = 1;
                 }
-                printf("• %s supera límite (%.2f > %.2f ug/m3)\n", nombres[j], zonas[i].prediccion[j], limites[j]);
+                printf("• %s supera limite (%.2f > %.2f ug/m3)\n", nombres[j], zonas[i].prediccion[j], limites[j]);
             }
         }
         if (!alertaMostrada) {
